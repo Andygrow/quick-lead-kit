@@ -8,6 +8,7 @@ import {
   Loader2, Sparkles, FileText, Download, ChevronRight,
   Car, Wrench, Shield, TrendingUp, Award, Truck, UserCheck, Settings, Target,
 } from "lucide-react";
+import gmHeroVehicle from "@/assets/gm-hero-vehicle.jpg";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
