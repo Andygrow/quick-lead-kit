@@ -233,7 +233,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="andygrow-theme min-h-screen bg-background text-foreground relative">
+    <div className="template-theme min-h-screen bg-background text-foreground relative">
       {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-background to-card" />
