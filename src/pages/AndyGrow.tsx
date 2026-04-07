@@ -921,6 +921,7 @@ const AndyGrow = () => (
     <ProcessSection />
     <ResultsSection />
     <LeadMagnetSection />
+    <QuizLeadMagnet />
     <EcosystemSection />
     <AIDiagnosisSection />
     <FinalCTA />
