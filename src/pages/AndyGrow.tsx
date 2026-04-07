@@ -58,22 +58,18 @@ const Section = ({ id, children, className = "" }: { id?: string; children: Reac
   </section>
 );
 
-const SectionHeader = ({ badge, title, subtitle }: { badge: string; title: React.ReactNode; subtitle: string }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  return (
-    <div ref={ref} className="text-center max-w-3xl mx-auto mb-16">
-      <motion.span variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}
-        className="inline-block px-4 py-1.5 rounded-full border border-primary/30 bg-primary/8 text-primary text-xs font-semibold tracking-wide uppercase mb-4">
-        {badge}
-      </motion.span>
-      <motion.h2 variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={1}
-        className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">{title}</motion.h2>
-      <motion.p variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={2}
-        className="text-[hsl(0,0%,55%)] text-lg">{subtitle}</motion.p>
-    </div>
-  );
-};
+const SectionHeader = ({ badge, title, subtitle }: { badge: string; title: React.ReactNode; subtitle: string }) => (
+  <div className="text-center max-w-3xl mx-auto mb-16">
+    <motion.span variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} custom={0}
+      className="inline-block px-4 py-1.5 rounded-full border border-primary/30 bg-primary/8 text-primary text-xs font-semibold tracking-wide uppercase mb-4">
+      {badge}
+    </motion.span>
+    <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} custom={1}
+      className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">{title}</motion.h2>
+    <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} custom={2}
+      className="text-[hsl(0,0%,55%)] text-lg">{subtitle}</motion.p>
+  </div>
+);
 
 /* ══════════════════ NAVBAR ══════════════════ */
 // 📌 PERSONALIZAR: Links de navegación
