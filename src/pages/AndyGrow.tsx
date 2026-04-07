@@ -886,42 +886,10 @@ const QuizLeadMagnet = () => {
   );
 };
 
-/* ══════════════════ ECOSISTEMA ══════════════════ */
-// 📌 PERSONALIZAR: Productos o alianzas
-const ECOSYSTEM = [
-  { name: "[Producto 1]", url: "#", desc: "Descripción de tu primer producto o alianza estratégica.", tags: ["Tag1", "Tag2", "Tag3"] },
-  { name: "[Producto 2]", url: "#", desc: "Descripción del segundo producto complementario.", tags: ["Tag1", "Tag2", "Tag3"] },
-];
-
-const EcosystemSection = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  return (
-    <Section id="ecosistema">
-      <SectionHeader badge="Ecosistema" title={<>Productos del <span className="tpl-gradient-text">ecosistema</span></>} subtitle="Herramientas que complementan nuestra oferta." />
-      <motion.div ref={ref} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
-        className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-        {ECOSYSTEM.map((e) => (
-          <motion.a key={e.name} variants={fadeUp} custom={0} href={e.url} target="_blank" rel="noopener noreferrer"
-            className="group p-6 rounded-2xl border border-border bg-card hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 block">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-                <Globe className="w-5 h-5 text-primary" />
-              </div>
-              <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{e.name}</h3>
-            </div>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-4">{e.desc}</p>
-            <div className="flex flex-wrap gap-2">
-              {e.tags.map((t) => (
-                <span key={t} className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border border-primary/20 text-primary">{t}</span>
-              ))}
-            </div>
-          </motion.a>
-        ))}
-      </motion.div>
-    </Section>
-  );
-};
+/* ══════════════════ ECOSISTEMA — ELIMINADO ══════════════════ */
+// ❌ Sección eliminada del template base. No aplica a todas las marcas.
+// Si necesitas mostrar productos/alianzas, puedes recrearla desde el componente original en:
+// src/components/andygrow/EcosystemSection.tsx
 
 /* ══════════════════ AI DIAGNOSIS ══════════════════ */
 // 📌 PERSONALIZAR: Industrias para el diagnóstico IA
@@ -1141,8 +1109,8 @@ const AndyGrow = () => (
     <ResultsSection />
     <LeadMagnetSection />
     <QuizLeadMagnet />
-    <EcosystemSection />
-    <AIDiagnosisSection />
+    {/* <AIDiagnosisSection /> */}
+    {/* ⚠️ OPCIONAL: Descomentar AIDiagnosisSection si necesitas diagnóstico IA. Requiere Edge Function 'analyze-industry'. */}
     <FinalCTA />
     <Footer />
   </div>
