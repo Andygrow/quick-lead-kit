@@ -70,7 +70,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="andygrow-theme">
+    <div className="template-theme">
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
         <div className="w-full max-w-md space-y-8 animate-fade-in-up">
           {/* Back link */}
