@@ -12,10 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import andyProfile from "@/assets/andygrow/andy-profile.jpeg";
 
 /* ── Countdown hook ── */
-const MASTERCLASS_DATE = new Date("2026-04-07T19:00:00-03:00");
+// 📌 PERSONALIZAR: Cambia esta fecha a la de tu evento
+const EVENT_DATE = new Date("2026-04-15T19:00:00-03:00");
 
 const useCountdown = (targetDate: Date) => {
   const [now, setNow] = useState(Date.now());
@@ -93,7 +93,7 @@ const SectionHeader = ({ badge, title, subtitle }: { badge: string; title: React
 
 /* ══════════════════ COUNTDOWN BANNER ══════════════════ */
 const CountdownBanner = () => {
-  const { days, hours, minutes, seconds, isLive } = useCountdown(MASTERCLASS_DATE);
+  const { days, hours, minutes, seconds, isLive } = useCountdown(EVENT_DATE);
   if (isLive) return null;
   const units = [
     { v: days, l: "días" }, { v: hours, l: "hrs" }, { v: minutes, l: "min" }, { v: seconds, l: "seg" },
@@ -101,8 +101,9 @@ const CountdownBanner = () => {
   return (
     <div className="fixed top-0 left-0 right-0 z-[60] bg-[hsl(142,72%,50%)] text-[hsl(220,20%,4%)]">
       <div className="container mx-auto px-4 h-10 flex items-center justify-center gap-3 text-sm font-bold">
-        <span className="hidden sm:inline">🔥 Masterclass GRATIS — 7 de Abril 19:00 hrs (Chile)</span>
-        <span className="sm:hidden">🔥 Masterclass 7 Abr</span>
+        {/* 📌 PERSONALIZAR: Texto del banner */}
+        <span className="hidden sm:inline">🔥 Evento GRATIS — Inscríbete ahora</span>
+        <span className="sm:hidden">🔥 Evento Gratis</span>
         <div className="flex items-center gap-1.5 font-mono">
           {units.map((u, i) => (
             <span key={u.l} className="flex items-center gap-0.5">
@@ -113,7 +114,7 @@ const CountdownBanner = () => {
             </span>
           ))}
         </div>
-        <button onClick={() => document.getElementById("masterclass")?.scrollIntoView({ behavior: "smooth" })}
+        <button onClick={() => document.getElementById("cta-principal")?.scrollIntoView({ behavior: "smooth" })}
           className="hidden md:inline-flex items-center gap-1 bg-[hsl(220,20%,4%)] text-[hsl(142,72%,50%)] px-3 py-1 rounded-full text-xs font-bold hover:bg-[hsl(220,20%,8%)] transition-colors">
           Inscribirme <ArrowRight className="w-3 h-3" />
         </button>
@@ -123,11 +124,12 @@ const CountdownBanner = () => {
 };
 
 /* ══════════════════ NAVBAR ══════════════════ */
+// 📌 PERSONALIZAR: Links de navegación
 const NAV_LINKS = [
   { label: "Servicios", href: "#servicios" },
   { label: "Industrias", href: "#industrias" },
   { label: "Resultados", href: "#resultados" },
-  { label: "Masterclass", href: "#masterclass" },
+  { label: "Inscríbete", href: "#cta-principal" },
 ];
 
 const Navbar = () => {
@@ -141,14 +143,15 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-10 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[hsl(220,20%,4%)/0.95] backdrop-blur-lg border-b border-[hsl(0,0%,12%)]" : "bg-transparent"}`}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="#" className="text-2xl font-black tracking-tight text-white">Andy<span className="text-[hsl(142,72%,50%)]">Grow</span></a>
+        {/* 📌 PERSONALIZAR: Nombre de marca */}
+        <a href="#" className="text-2xl font-black tracking-tight text-white">Tu<span className="text-[hsl(142,72%,50%)]">Marca</span></a>
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((l) => (
             <a key={l.href} href={l.href} className="text-sm text-[hsl(0,0%,60%)] hover:text-white transition-colors font-medium">{l.label}</a>
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <Button onClick={() => document.getElementById("masterclass")?.scrollIntoView({ behavior: "smooth" })}
+          <Button onClick={() => document.getElementById("cta-principal")?.scrollIntoView({ behavior: "smooth" })}
             className="hidden sm:inline-flex bg-[hsl(142,72%,50%)] hover:bg-[hsl(142,72%,45%)] text-[hsl(220,20%,4%)] font-bold text-sm px-5 h-9 rounded-full">
             Inscribirme
           </Button>
@@ -164,9 +167,9 @@ const Navbar = () => {
             <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
               className="block py-3 text-[hsl(0,0%,70%)] hover:text-white font-medium border-b border-[hsl(0,0%,10%)] last:border-0">{l.label}</a>
           ))}
-          <Button onClick={() => { setMobileOpen(false); document.getElementById("masterclass")?.scrollIntoView({ behavior: "smooth" }); }}
+          <Button onClick={() => { setMobileOpen(false); document.getElementById("cta-principal")?.scrollIntoView({ behavior: "smooth" }); }}
             className="w-full mt-3 bg-[hsl(142,72%,50%)] hover:bg-[hsl(142,72%,45%)] text-[hsl(220,20%,4%)] font-bold rounded-full">
-            Inscribirme a la Masterclass
+            Inscribirme
           </Button>
         </motion.div>
       )}
@@ -201,41 +204,47 @@ const HeroSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="order-2 lg:order-1">
             <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}>
+              {/* 📌 PERSONALIZAR: Badge del hero */}
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[hsl(142,72%,50%)/0.3] bg-[hsl(142,72%,50%)/0.08] text-[hsl(142,72%,50%)] text-xs font-semibold tracking-wide uppercase mb-6">
-                <Bot className="w-3.5 h-3.5" /> Automatización Inteligente
+                <Bot className="w-3.5 h-3.5" /> [Tu Categoría]
               </span>
             </motion.div>
+            {/* 📌 PERSONALIZAR: Titular principal */}
             <motion.h1 variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={1}
               className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-6">
-              Arquitecto de{" "}<span className="ag-gradient-text">Sistemas de Venta</span>{" "}con IA
+              [Tu propuesta de{" "}<span className="ag-gradient-text">valor principal</span>{" "}aquí]
             </motion.h1>
+            {/* 📌 PERSONALIZAR: Subtítulo */}
             <motion.p variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={2}
               className="text-lg text-[hsl(0,0%,60%)] max-w-lg mb-8 leading-relaxed">
-              Diseño e implemento ecosistemas de automatización con inteligencia artificial que generan leads, nutren prospectos y cierran ventas — mientras tú te enfocas en crecer.
+              Describe en 1-2 líneas qué haces, para quién lo haces y el resultado que entregas. Sé específico y orientado al beneficio del cliente.
             </motion.p>
             <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={3}>
-              <Button onClick={() => document.getElementById("masterclass")?.scrollIntoView({ behavior: "smooth" })}
+              <Button onClick={() => document.getElementById("cta-principal")?.scrollIntoView({ behavior: "smooth" })}
                 className="h-14 px-8 text-base font-bold bg-[hsl(142,72%,50%)] hover:bg-[hsl(142,72%,45%)] text-[hsl(220,20%,4%)] rounded-full ag-glow ag-glow-hover transition-all duration-300 group">
-                Inscribirme a la Masterclass Gratis <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                {/* 📌 PERSONALIZAR: Texto del CTA */}
+                [Tu CTA Principal] <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
+            {/* 📌 PERSONALIZAR: Mini estadísticas */}
             <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={4} className="flex flex-wrap gap-6 mt-10">
-              <MiniStat icon={Zap} value="+120" label="Sistemas creados" />
-              <MiniStat icon={BarChart3} value="3.2x" label="ROI promedio" />
-              <MiniStat icon={Clock} value="24/7" label="Automatización" />
+              <MiniStat icon={Zap} value="[Stat 1]" label="[Descripción]" />
+              <MiniStat icon={BarChart3} value="[Stat 2]" label="[Descripción]" />
+              <MiniStat icon={Clock} value="[Stat 3]" label="[Descripción]" />
             </motion.div>
           </div>
           <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={2} className="order-1 lg:order-2 flex justify-center">
             <div className="relative">
               <div className="absolute -inset-4 rounded-full border border-[hsl(142,72%,50%)/0.15]" />
               <div className="absolute -inset-8 rounded-full border border-[hsl(142,72%,50%)/0.08]" />
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] rounded-full overflow-hidden border-2 border-[hsl(142,72%,50%)/0.3] ag-glow">
-                <img src={andyProfile} alt="Andy — Arquitecto de Sistemas de Venta con IA" className="w-full h-full object-cover" />
+              {/* 📌 PERSONALIZAR: Imagen de perfil o logo */}
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] rounded-full overflow-hidden border-2 border-[hsl(142,72%,50%)/0.3] ag-glow bg-[hsl(220,15%,8%)] flex items-center justify-center">
+                <User className="w-24 h-24 text-[hsl(0,0%,30%)]" />
               </div>
               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 ag-float">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[hsl(220,15%,8%)] border border-[hsl(142,72%,50%)/0.3] shadow-lg">
                   <span className="w-2.5 h-2.5 rounded-full bg-[hsl(142,72%,50%)] ag-pulse-dot" />
-                  <span className="text-xs font-bold text-white whitespace-nowrap">Sistema activo</span>
+                  <span className="text-xs font-bold text-white whitespace-nowrap">[Estado activo]</span>
                 </div>
               </div>
             </div>
@@ -253,10 +262,11 @@ const HeroSection = () => {
 };
 
 /* ══════════════════ SERVICIOS ══════════════════ */
+// 📌 PERSONALIZAR: Tus servicios principales
 const SERVICES = [
-  { icon: Workflow, title: "Embudos con IA", desc: "Diseño funnels inteligentes que califican, segmentan y nutren leads automáticamente con contenido personalizado por IA." },
-  { icon: LineChart, title: "Automatización de Ventas", desc: "Sistemas end-to-end que conectan captación, seguimiento y cierre sin intervención manual — funcionando 24/7." },
-  { icon: BrainCircuit, title: "Analítica Predictiva", desc: "Dashboards y modelos que predicen qué leads van a comprar, cuándo y por qué — para que inviertas donde importa." },
+  { icon: Workflow, title: "[Servicio 1]", desc: "Descripción breve del primer servicio o solución que ofreces. Enfócate en el beneficio para el cliente." },
+  { icon: LineChart, title: "[Servicio 2]", desc: "Descripción breve del segundo servicio. Explica qué problema resuelve y qué resultado genera." },
+  { icon: BrainCircuit, title: "[Servicio 3]", desc: "Descripción breve del tercer servicio. Destaca el diferenciador o la ventaja competitiva." },
 ];
 
 const ServicesSection = () => {
@@ -264,7 +274,7 @@ const ServicesSection = () => {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
     <Section id="servicios">
-      <SectionHeader badge="Servicios" title={<>Lo que <span className="ag-gradient-text">construyo</span> para ti</>} subtitle="Soluciones de automatización que transforman tu operación de ventas." />
+      <SectionHeader badge="Servicios" title={<>Lo que <span className="ag-gradient-text">ofrecemos</span></>} subtitle="Soluciones diseñadas para transformar tu negocio." />
       <motion.div ref={ref} variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
         className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {SERVICES.map((s) => (
@@ -282,24 +292,25 @@ const ServicesSection = () => {
   );
 };
 
-/* ══════════════════ IA POR INDUSTRIA ══════════════════ */
+/* ══════════════════ INDUSTRIAS / SOLUCIONES ══════════════════ */
+// 📌 PERSONALIZAR: Industrias o segmentos que atiendes
 const INDUSTRIES = [
-  { id: "inmobiliaria", icon: Building2, label: "Inmobiliaria", problem: "Leads fríos que nunca responden y seguimiento manual que se pierde.", solution: "Sistema de nurturing automatizado que califica leads por urgencia de compra y envía contenido relevante según su etapa.", impact: "3x más visitas agendadas y 60% menos tiempo en seguimiento." },
-  { id: "ecommerce", icon: ShoppingCart, label: "E-commerce", problem: "Carritos abandonados, remarketing genérico y baja tasa de recompra.", solution: "Flujos de recuperación con IA que personalizan ofertas según comportamiento de navegación y historial de compra.", impact: "35% de recuperación de carritos y 2x en lifetime value." },
-  { id: "educacion", icon: GraduationCap, label: "Educación", problem: "Alto costo de adquisición y estudiantes que no completan el enrollment.", solution: "Embudo automatizado con chatbot IA que responde dudas, agenda entrevistas y da seguimiento personalizado.", impact: "50% reducción en costo por matrícula y 40% más conversión." },
-  { id: "servicios", icon: Briefcase, label: "Servicios Profesionales", problem: "Dependencia de referidos y propuestas que se envían tarde.", solution: "Sistema de prospección con IA que identifica oportunidades, genera propuestas y automatiza follow-ups.", impact: "4x más propuestas enviadas y 28% más tasa de cierre." },
-  { id: "salud", icon: HeartPulse, label: "Salud", problem: "Pacientes que no agendan, citas no confirmadas y baja retención.", solution: "Automatización de agendamiento, recordatorios inteligentes y programas de fidelización personalizados.", impact: "45% menos no-shows y 3x en retención de pacientes." },
-  { id: "manufactura", icon: Factory, label: "Manufactura", problem: "Ciclos de venta largos, cotizaciones lentas y pérdida de oportunidades B2B.", solution: "CRM con IA que prioriza cuentas, automatiza cotizaciones y predice cierre de deals.", impact: "55% reducción en ciclo de venta y 2.5x pipeline." },
+  { id: "segmento-1", icon: Building2, label: "[Segmento 1]", problem: "Describe el problema principal de este segmento.", solution: "Explica cómo tu solución resuelve el problema.", impact: "Métricas de impacto esperadas." },
+  { id: "segmento-2", icon: ShoppingCart, label: "[Segmento 2]", problem: "Problema del segundo segmento.", solution: "Tu solución para este segmento.", impact: "Resultados esperados." },
+  { id: "segmento-3", icon: GraduationCap, label: "[Segmento 3]", problem: "Problema del tercer segmento.", solution: "Solución personalizada.", impact: "Impacto medible." },
+  { id: "segmento-4", icon: Briefcase, label: "[Segmento 4]", problem: "Problema del cuarto segmento.", solution: "Tu propuesta de valor.", impact: "Resultados concretos." },
+  { id: "segmento-5", icon: HeartPulse, label: "[Segmento 5]", problem: "Problema específico.", solution: "Solución diferenciada.", impact: "KPIs de mejora." },
+  { id: "segmento-6", icon: Factory, label: "[Segmento 6]", problem: "Desafío del segmento.", solution: "Enfoque de solución.", impact: "Métricas de éxito." },
 ];
 
 const IndustrySection = () => {
-  const [active, setActive] = useState("inmobiliaria");
+  const [active, setActive] = useState("segmento-1");
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const selected = INDUSTRIES.find((i) => i.id === active)!;
   return (
     <Section id="industrias" className="bg-[hsl(220,18%,5%)]">
-      <SectionHeader badge="Industrias" title={<>IA aplicada a <span className="ag-gradient-text">tu industria</span></>} subtitle="Selecciona tu sector y descubre cómo la automatización transforma tu operación." />
+      <SectionHeader badge="Soluciones" title={<>Soluciones para <span className="ag-gradient-text">tu industria</span></>} subtitle="Selecciona tu sector y descubre cómo podemos ayudarte." />
       <div ref={ref} className="max-w-5xl mx-auto">
         <motion.div variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
           className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-10">
@@ -315,7 +326,7 @@ const IndustrySection = () => {
           className="grid md:grid-cols-3 gap-5">
           {[
             { label: "Problema", color: "hsl(0,70%,55%)", content: selected.problem },
-            { label: "Solución con IA", color: "hsl(142,72%,50%)", content: selected.solution },
+            { label: "Solución", color: "hsl(142,72%,50%)", content: selected.solution },
             { label: "Impacto esperado", color: "hsl(45,90%,55%)", content: selected.impact },
           ].map((card) => (
             <div key={card.label} className="p-6 rounded-2xl border border-[hsl(0,0%,12%)] bg-[hsl(220,15%,6%)]">
@@ -330,11 +341,12 @@ const IndustrySection = () => {
 };
 
 /* ══════════════════ PROCESO ══════════════════ */
+// 📌 PERSONALIZAR: Tu proceso de trabajo
 const STEPS = [
-  { num: "01", icon: Search, title: "Diagnóstico", desc: "Analizo tu operación actual, identifico cuellos de botella y oportunidades de automatización." },
-  { num: "02", icon: Layers, title: "Arquitectura", desc: "Diseño el ecosistema completo: flujos, integraciones, triggers y lógica de IA." },
-  { num: "03", icon: Rocket, title: "Implementación", desc: "Construyo, configuro y conecto cada pieza del sistema con pruebas rigurosas." },
-  { num: "04", icon: RefreshCw, title: "Optimización", desc: "Monitoreo métricas, ajusto modelos y escalo lo que funciona — mejora continua." },
+  { num: "01", icon: Search, title: "[Paso 1]", desc: "Descripción del primer paso de tu proceso." },
+  { num: "02", icon: Layers, title: "[Paso 2]", desc: "Descripción del segundo paso." },
+  { num: "03", icon: Rocket, title: "[Paso 3]", desc: "Descripción del tercer paso." },
+  { num: "04", icon: RefreshCw, title: "[Paso 4]", desc: "Descripción del cuarto paso." },
 ];
 
 const ProcessSection = () => {
@@ -342,7 +354,7 @@ const ProcessSection = () => {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
     <Section id="proceso">
-      <SectionHeader badge="Proceso" title={<>Cómo <span className="ag-gradient-text">funciona</span></>} subtitle="Un proceso probado en +50 empresas para implementar automatización con resultados reales." />
+      <SectionHeader badge="Proceso" title={<>Cómo <span className="ag-gradient-text">funciona</span></>} subtitle="Un proceso probado para generar resultados reales." />
       <motion.div ref={ref} variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
         className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
         {STEPS.map((s, i) => (
@@ -363,11 +375,12 @@ const ProcessSection = () => {
 };
 
 /* ══════════════════ RESULTADOS ══════════════════ */
+// 📌 PERSONALIZAR: Tus métricas de resultados
 const RESULTS = [
-  { value: 320, suffix: "%", label: "Aumento en leads", decimals: 0 },
-  { value: 85, suffix: "%", label: "Reducción tiempo de cierre", decimals: 0 },
-  { value: 50, suffix: "+", label: "Empresas automatizadas", decimals: 0 },
-  { value: 4.9, suffix: "★", label: "Satisfacción clientes", decimals: 1 },
+  { value: 100, suffix: "%", label: "[Métrica 1]", decimals: 0 },
+  { value: 50, suffix: "%", label: "[Métrica 2]", decimals: 0 },
+  { value: 30, suffix: "+", label: "[Métrica 3]", decimals: 0 },
+  { value: 4.9, suffix: "★", label: "[Métrica 4]", decimals: 1 },
 ];
 
 const StatCounter = ({ value, suffix, label, decimals = 0 }: { value: number; suffix: string; label: string; decimals?: number }) => {
@@ -386,7 +399,7 @@ const StatCounter = ({ value, suffix, label, decimals = 0 }: { value: number; su
 
 const ResultsSection = () => (
   <Section id="resultados" className="bg-[hsl(220,18%,5%)]">
-    <SectionHeader badge="Resultados" title={<>Números que <span className="ag-gradient-text">hablan</span></>} subtitle="Resultados reales de clientes que implementaron sistemas de venta con IA." />
+    <SectionHeader badge="Resultados" title={<>Números que <span className="ag-gradient-text">hablan</span></>} subtitle="Resultados reales de clientes que confían en nosotros." />
     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
       {RESULTS.map((r) => <StatCounter key={r.label} {...r} />)}
     </div>
@@ -394,9 +407,10 @@ const ResultsSection = () => (
 );
 
 /* ══════════════════ ECOSISTEMA ══════════════════ */
+// 📌 PERSONALIZAR: Productos o alianzas de tu ecosistema
 const ECOSYSTEM = [
-  { name: "Brief.cl", url: "https://brief.cl", desc: "Plataforma de briefing inteligente para agencias y equipos creativos. Automatiza la captura de requerimientos con IA.", tags: ["SaaS", "Agencias", "IA"] },
-  { name: "Revbase.cl", url: "https://revbase.cl", desc: "Base de datos de revenue operations para startups y scaleups. Conecta métricas de marketing, ventas y producto.", tags: ["RevOps", "Analytics", "Startups"] },
+  { name: "[Producto 1]", url: "#", desc: "Descripción de tu primer producto o alianza estratégica.", tags: ["Tag1", "Tag2", "Tag3"] },
+  { name: "[Producto 2]", url: "#", desc: "Descripción del segundo producto o herramienta complementaria.", tags: ["Tag1", "Tag2", "Tag3"] },
 ];
 
 const EcosystemSection = () => {
@@ -404,7 +418,7 @@ const EcosystemSection = () => {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
     <Section id="ecosistema">
-      <SectionHeader badge="Ecosistema" title={<>Productos del <span className="ag-gradient-text">ecosistema</span></>} subtitle="Herramientas propias que complementan los sistemas de automatización." />
+      <SectionHeader badge="Ecosistema" title={<>Productos del <span className="ag-gradient-text">ecosistema</span></>} subtitle="Herramientas que complementan nuestra oferta." />
       <motion.div ref={ref} variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
         className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
         {ECOSYSTEM.map((e) => (
@@ -429,16 +443,17 @@ const EcosystemSection = () => {
   );
 };
 
-/* ══════════════════ MASTERCLASS ══════════════════ */
+/* ══════════════════ CTA PRINCIPAL (REGISTRO) ══════════════════ */
+// 📌 PERSONALIZAR: Beneficios del lead magnet / evento
 const BENEFITS = [
-  { icon: BrainCircuit, text: "Aprende a crear landing pages con IA en minutos" },
-  { icon: Gift, text: "Llévate mi plantilla de landing page lista para usar" },
-  { icon: Zap, text: "Automatiza tu captación de leads desde el día 1" },
-  { icon: Users, text: "Sesión en vivo con preguntas y respuestas" },
-  { icon: Star, text: "Acceso exclusivo a recursos y herramientas" },
+  { icon: BrainCircuit, text: "[Beneficio 1 de tu oferta]" },
+  { icon: Gift, text: "[Beneficio 2 - regalo o bonus]" },
+  { icon: Zap, text: "[Beneficio 3 - resultado rápido]" },
+  { icon: Users, text: "[Beneficio 4 - exclusividad]" },
+  { icon: Star, text: "[Beneficio 5 - acceso especial]" },
 ];
 
-const MasterclassSection = () => {
+const CTASection = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -446,7 +461,7 @@ const MasterclassSection = () => {
   const [submitted, setSubmitted] = useState(false);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const { days, hours, minutes, seconds } = useCountdown(MASTERCLASS_DATE);
+  const { days, hours, minutes, seconds } = useCountdown(EVENT_DATE);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -460,7 +475,6 @@ const MasterclassSection = () => {
       setSubmitted(true);
       toast.success("¡Inscripción exitosa! Te enviaremos los detalles por email.");
 
-      // Trigger confirmation email (step 1)
       supabase.functions.invoke('send-webinar-emails', {
         body: { name, email, step: 1 },
       }).catch(() => console.log('Email sending skipped'));
@@ -473,18 +487,19 @@ const MasterclassSection = () => {
   };
 
   return (
-    <Section id="masterclass" className="bg-[hsl(220,18%,5%)]">
+    <Section id="cta-principal" className="bg-[hsl(220,18%,5%)]">
       <div ref={ref} className="max-w-5xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left — Benefits */}
           <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}>
+            {/* 📌 PERSONALIZAR: Badge y título del CTA */}
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[hsl(142,72%,50%)/0.3] bg-[hsl(142,72%,50%)/0.08] text-[hsl(142,72%,50%)] text-xs font-semibold tracking-wide uppercase mb-4">
-              <Calendar className="w-3.5 h-3.5" /> Masterclass Gratuita
+              <Calendar className="w-3.5 h-3.5" /> [Tipo de Oferta]
             </span>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-2">
-              Crea tu <span className="ag-gradient-text">Landing Page con IA</span>
+              [Tu <span className="ag-gradient-text">oferta principal</span>]
             </h2>
-            <p className="text-[hsl(0,0%,55%)] mb-2">Martes 7 de Abril · 19:00 hrs (Chile)</p>
+            <p className="text-[hsl(0,0%,55%)] mb-2">[Fecha y hora del evento]</p>
 
             {/* Mini countdown */}
             <div className="flex gap-3 mb-8">
@@ -518,13 +533,14 @@ const MasterclassSection = () => {
               {submitted ? (
                 <div className="text-center py-8">
                   <CheckCircle2 className="w-16 h-16 text-[hsl(142,72%,50%)] mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-white mb-2">¡Estás inscrito!</h3>
-                  <p className="text-[hsl(0,0%,55%)]">Revisa tu email para los detalles de acceso.</p>
+                  <h3 className="text-2xl font-bold text-white mb-2">¡Listo!</h3>
+                  <p className="text-[hsl(0,0%,55%)]">Revisa tu email para los detalles.</p>
                 </div>
               ) : (
                 <>
-                  <h3 className="text-xl font-bold text-white mb-1">Reserva tu lugar</h3>
-                  <p className="text-[hsl(0,0%,50%)] text-sm mb-6">Cupos limitados — asegura el tuyo ahora.</p>
+                  {/* 📌 PERSONALIZAR: Título del formulario */}
+                  <h3 className="text-xl font-bold text-white mb-1">[Reserva tu lugar]</h3>
+                  <p className="text-[hsl(0,0%,50%)] text-sm mb-6">[Subtítulo de urgencia]</p>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[hsl(0,0%,40%)]" />
@@ -543,7 +559,8 @@ const MasterclassSection = () => {
                     </div>
                     <Button type="submit" disabled={submitting}
                       className="w-full h-13 text-base font-bold bg-[hsl(142,72%,50%)] hover:bg-[hsl(142,72%,45%)] text-[hsl(220,20%,4%)] rounded-xl ag-glow ag-glow-hover transition-all duration-300">
-                      {submitting ? "Inscribiendo..." : "Inscribirme Gratis →"}
+                      {/* 📌 PERSONALIZAR: Texto del botón */}
+                      {submitting ? "Procesando..." : "[Tu CTA del formulario] →"}
                     </Button>
                   </form>
                   <p className="text-[10px] text-[hsl(0,0%,40%)] text-center mt-3">Sin spam. Tus datos están seguros.</p>
@@ -565,15 +582,16 @@ const FinalCTA = () => {
     <Section>
       <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}
         className="text-center max-w-2xl mx-auto">
+        {/* 📌 PERSONALIZAR: CTA final */}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
-          ¿Listo para <span className="ag-gradient-text">automatizar</span> tus ventas?
+          ¿Listo para <span className="ag-gradient-text">dar el paso</span>?
         </h2>
         <p className="text-[hsl(0,0%,55%)] text-lg mb-8">
-          Únete a la masterclass gratuita y descubre cómo crear sistemas que venden por ti.
+          [Tu mensaje de cierre que motive a la acción]
         </p>
-        <Button onClick={() => document.getElementById("masterclass")?.scrollIntoView({ behavior: "smooth" })}
+        <Button onClick={() => document.getElementById("cta-principal")?.scrollIntoView({ behavior: "smooth" })}
           className="h-14 px-10 text-base font-bold bg-[hsl(142,72%,50%)] hover:bg-[hsl(142,72%,45%)] text-[hsl(220,20%,4%)] rounded-full ag-glow ag-glow-hover transition-all duration-300 group">
-          Inscribirme a la Masterclass <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+          [CTA Final] <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
         </Button>
       </motion.div>
     </Section>
@@ -584,20 +602,22 @@ const FinalCTA = () => {
 const Footer = () => (
   <footer className="border-t border-[hsl(0,0%,10%)] py-8">
     <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <span className="text-sm font-black text-white">Andy<span className="text-[hsl(142,72%,50%)]">Grow</span></span>
-      <p className="text-xs text-[hsl(0,0%,40%)]">© {new Date().getFullYear()} AndyGrow. Todos los derechos reservados.</p>
+      {/* 📌 PERSONALIZAR: Nombre de marca */}
+      <span className="text-sm font-black text-white">Tu<span className="text-[hsl(142,72%,50%)]">Marca</span></span>
+      <p className="text-xs text-[hsl(0,0%,40%)]">© {new Date().getFullYear()} [Tu Marca]. Todos los derechos reservados.</p>
     </div>
   </footer>
 );
 
 /* ══════════════════ AI DIAGNOSIS ══════════════════ */
+// 📌 PERSONALIZAR: Industrias para el diagnóstico con IA
 const DIAG_INDUSTRIES = [
-  { id: "Inmobiliaria", icon: Building2 },
-  { id: "E-commerce", icon: ShoppingCart },
-  { id: "Educación", icon: GraduationCap },
-  { id: "Servicios Profesionales", icon: Briefcase },
-  { id: "Salud", icon: HeartPulse },
-  { id: "Manufactura", icon: Factory },
+  { id: "[Industria 1]", icon: Building2 },
+  { id: "[Industria 2]", icon: ShoppingCart },
+  { id: "[Industria 3]", icon: GraduationCap },
+  { id: "[Industria 4]", icon: Briefcase },
+  { id: "[Industria 5]", icon: HeartPulse },
+  { id: "[Industria 6]", icon: Factory },
 ];
 
 const AIDiagnosisSection = () => {
@@ -685,7 +705,6 @@ const AIDiagnosisSection = () => {
             onSubmit={handleSubmit}
             className="p-8 rounded-2xl border border-[hsl(0,0%,12%)] bg-[hsl(220,15%,6%)] space-y-6"
           >
-            {/* Industry picker */}
             <div>
               <label className="text-sm font-semibold text-white mb-3 block">Selecciona tu industria</label>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
@@ -703,7 +722,6 @@ const AIDiagnosisSection = () => {
               </div>
             </div>
 
-            {/* Name & email */}
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[hsl(0,0%,40%)]" />
@@ -729,7 +747,6 @@ const AIDiagnosisSection = () => {
         ) : (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="rounded-2xl border border-[hsl(142,72%,50%)/0.2] bg-[hsl(220,15%,6%)] overflow-hidden shadow-[0_0_60px_-15px_hsl(142,72%,50%/0.15)]">
-            {/* Header */}
             <div className="flex items-center gap-3 px-6 py-4 border-b border-[hsl(0,0%,12%)] bg-[hsl(220,15%,8%)]">
               <div className="w-8 h-8 rounded-lg bg-[hsl(142,72%,50%)/0.15] flex items-center justify-center">
                 <BrainCircuit className="w-4 h-4 text-[hsl(142,72%,50%)]" />
@@ -742,19 +759,17 @@ const AIDiagnosisSection = () => {
               {done && <CheckCircle2 className="w-4 h-4 text-[hsl(142,72%,50%)] ml-auto" />}
             </div>
 
-            {/* Content */}
             <div ref={resultRef} className="p-6 max-h-[500px] overflow-y-auto ag-markdown">
               <ReactMarkdown>{result}</ReactMarkdown>
               {!done && <span className="inline-block w-2 h-5 bg-[hsl(142,72%,50%)] animate-pulse ml-0.5 align-text-bottom" />}
             </div>
 
-            {/* CTA after done */}
             {done && (
               <div className="px-6 pb-6 pt-2">
                 <Button
-                  onClick={() => document.getElementById("masterclass")?.scrollIntoView({ behavior: "smooth" })}
+                  onClick={() => document.getElementById("cta-principal")?.scrollIntoView({ behavior: "smooth" })}
                   className="w-full h-13 text-base font-bold bg-[hsl(142,72%,50%)] hover:bg-[hsl(142,72%,45%)] text-[hsl(220,20%,4%)] rounded-xl ag-glow ag-glow-hover transition-all duration-300 group">
-                  Inscribirme a la Masterclass Gratis <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  [Tu CTA después del diagnóstico] <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             )}
@@ -777,7 +792,7 @@ const AndyGrow = () => (
     <ResultsSection />
     <EcosystemSection />
     <AIDiagnosisSection />
-    <MasterclassSection />
+    <CTASection />
     <FinalCTA />
     <Footer />
   </div>
