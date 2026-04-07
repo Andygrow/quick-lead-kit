@@ -213,6 +213,66 @@ const HeroSection = () => {
   );
 };
 
+/* ══════════════════ SOCIAL PROOF ══════════════════ */
+// 📌 PERSONALIZAR: Estadísticas y logos de clientes/aliados
+const SOCIAL_STATS = [
+  { value: "[X]+", label: "[Clientes atendidos]" },
+  { value: "[X]+", label: "[Proyectos entregados]" },
+  { value: "[X]+", label: "[Años de experiencia]" },
+];
+
+const SOCIAL_LOGOS = [
+  "[Marca 1]", "[Marca 2]", "[Marca 3]", "[Marca 4]", "[Marca 5]", "[Marca 6]",
+];
+
+const SocialProofSection = () => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  return (
+    <section className="py-14 bg-card/50 border-y border-border relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+      <div className="container mx-auto px-4 relative">
+        <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5 }} className="text-center space-y-8">
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto">
+            {SOCIAL_STATS.map((stat, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.1, duration: 0.4 }} className="text-center">
+                <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-4 max-w-md mx-auto">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+            {/* 📌 PERSONALIZAR: Texto de confianza */}
+            <p className="text-sm text-muted-foreground font-medium px-2">Confían en nosotros</p>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+          </div>
+
+          {/* Client logos as text badges */}
+          <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+            {SOCIAL_LOGOS.map((logo, i) => (
+              <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.2 + i * 0.05, duration: 0.3 }}
+                className="px-5 py-2.5 rounded-xl border border-border bg-background/50 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300">
+                <span className="text-sm font-semibold text-muted-foreground">{logo}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Trust line */}
+          <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+            {/* 📌 PERSONALIZAR: Línea de confianza */}
+            Más de <span className="text-primary font-semibold">[X años]</span> ayudando a empresas a{" "}
+            <span className="text-white font-medium">[lograr resultado principal]</span>.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 /* ══════════════════ SERVICIOS ══════════════════ */
 // 📌 PERSONALIZAR: Tus servicios principales
 const SERVICES = [
@@ -855,6 +915,7 @@ const AndyGrow = () => (
   <div className="template-theme min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
     <Navbar />
     <HeroSection />
+    <SocialProofSection />
     <ServicesSection />
     <IndustrySection />
     <ProcessSection />
