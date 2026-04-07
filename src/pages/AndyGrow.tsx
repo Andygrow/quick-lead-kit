@@ -8,6 +8,7 @@ import {
   Loader2, Sparkles, FileText, Download, ChevronRight,
   Car, Wrench, Shield, TrendingUp, Award, Truck, UserCheck, Settings, Target,
 } from "lucide-react";
+import gmHeroVehicle from "@/assets/gm-hero-vehicle.jpg";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -177,10 +178,14 @@ const HeroSection = () => {
           </div>
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} className="order-1 lg:order-2 flex justify-center">
             <div className="relative">
-              <div className="absolute -inset-4 rounded-full border border-primary/15" />
-              <div className="absolute -inset-8 rounded-full border border-primary/8" />
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] rounded-full overflow-hidden border-2 border-primary/30 tpl-glow bg-card flex items-center justify-center">
-                <Car className="w-24 h-24 text-muted-foreground/30" />
+              <div className="absolute -inset-4 rounded-2xl border border-primary/15" />
+              <div className="absolute -inset-8 rounded-2xl border border-primary/8" />
+              <div className="relative w-72 h-52 sm:w-96 sm:h-64 lg:w-[28rem] lg:h-[20rem] rounded-2xl overflow-hidden border-2 border-primary/30 tpl-glow bg-card">
+                <img 
+                  src={gmHeroVehicle} 
+                  alt="Mitsubishi L200 - Guillermo Morales" 
+                  className="w-full h-full object-cover object-center"
+                />
               </div>
               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 tpl-float">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-primary/30 shadow-lg">
