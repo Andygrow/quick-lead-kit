@@ -305,123 +305,124 @@
 }
 
 @layer components {
-  .andygrow-theme {
-    --background: 220 20% 4%;
+  /* 📌 PERSONALIZAR: Cambia --tpl-accent a tu color de marca */
+  .template-theme {
+    --background: 220 15% 6%;
     --foreground: 0 0% 98%;
-    --card: 220 15% 8%;
+    --card: 220 12% 10%;
     --card-foreground: 0 0% 98%;
-    --muted: 220 12% 12%;
+    --muted: 220 10% 14%;
     --muted-foreground: 0 0% 58%;
-    --border: 0 0% 12%;
-    --input: 220 15% 10%;
-    --primary: 142 72% 50%;
-    --primary-foreground: 220 20% 4%;
-    --accent: 142 72% 50%;
-    --accent-foreground: 220 20% 4%;
-    --ring: 142 72% 50%;
-    --ag-green: 142 72% 50%;
-    --ag-green-dark: 142 72% 38%;
-    --ag-dark: 220 20% 4%;
-    --ag-dark-card: 220 15% 8%;
+    --border: 220 10% 16%;
+    --input: 220 12% 12%;
+    --primary: 210 60% 55%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 210 60% 55%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 210 60% 55%;
+    --tpl-accent: 210 60% 55%;
+    --tpl-accent-light: 210 60% 68%;
+    --tpl-dark: 220 15% 6%;
+    --tpl-dark-card: 220 12% 10%;
     font-family: 'Inter', system-ui, sans-serif;
   }
 
-  .andygrow-theme h1,
-  .andygrow-theme h2,
-  .andygrow-theme h3,
-  .andygrow-theme h4,
-  .andygrow-theme h5,
-  .andygrow-theme h6 {
+  .template-theme h1,
+  .template-theme h2,
+  .template-theme h3,
+  .template-theme h4,
+  .template-theme h5,
+  .template-theme h6 {
     font-family: 'Inter', system-ui, sans-serif;
   }
 
-  .andygrow-theme p {
+  .template-theme p {
     font-family: 'Inter', system-ui, sans-serif;
     color: hsl(0 0% 70%);
   }
 
-  .ag-gradient-text {
-    background: linear-gradient(135deg, hsl(142 72% 50%), hsl(142 72% 70%));
+  .tpl-gradient-text {
+    background: linear-gradient(135deg, hsl(var(--tpl-accent)), hsl(var(--tpl-accent-light)));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .ag-glow {
-    box-shadow: 0 0 30px -5px hsl(142 72% 50% / 0.4);
+  .tpl-glow {
+    box-shadow: 0 0 30px -5px hsl(var(--tpl-accent) / 0.4);
   }
 
-  .ag-glow-hover:hover {
-    box-shadow: 0 0 40px -5px hsl(142 72% 50% / 0.6);
+  .tpl-glow-hover:hover {
+    box-shadow: 0 0 40px -5px hsl(var(--tpl-accent) / 0.6);
   }
 
-  @keyframes ag-pulse-dot {
+  @keyframes tpl-pulse-dot {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(0.85); }
   }
 
-  .ag-pulse-dot {
-    animation: ag-pulse-dot 2s ease-in-out infinite;
+  .tpl-pulse-dot {
+    animation: tpl-pulse-dot 2s ease-in-out infinite;
   }
 
-  @keyframes ag-scroll-bounce {
+  @keyframes tpl-scroll-bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(8px); }
   }
 
-  .ag-scroll-indicator {
-    animation: ag-scroll-bounce 2s ease-in-out infinite;
+  .tpl-scroll-indicator {
+    animation: tpl-scroll-bounce 2s ease-in-out infinite;
   }
 
-  @keyframes ag-float {
+  @keyframes tpl-float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
   }
 
-  .ag-float {
-    animation: ag-float 4s ease-in-out infinite;
+  .tpl-float {
+    animation: tpl-float 4s ease-in-out infinite;
   }
 
   /* AI Diagnosis markdown */
-  .ag-markdown h2 {
+  .tpl-markdown h2 {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 1.15rem;
     font-weight: 800;
-    color: hsl(142 72% 50%);
+    color: hsl(var(--tpl-accent));
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
   }
 
-  .ag-markdown h2:first-child {
+  .tpl-markdown h2:first-child {
     margin-top: 0;
   }
 
-  .ag-markdown p {
+  .tpl-markdown p {
     color: hsl(0 0% 70%);
     font-size: 0.875rem;
     line-height: 1.7;
     margin-bottom: 0.75rem;
   }
 
-  .ag-markdown strong {
+  .tpl-markdown strong {
     color: hsl(0 0% 90%);
     font-weight: 700;
   }
 
-  .ag-markdown ul, .ag-markdown ol {
+  .tpl-markdown ul, .tpl-markdown ol {
     padding-left: 1.25rem;
     margin-bottom: 0.75rem;
   }
 
-  .ag-markdown li {
+  .tpl-markdown li {
     color: hsl(0 0% 65%);
     font-size: 0.875rem;
     line-height: 1.7;
     margin-bottom: 0.25rem;
   }
 
-  .ag-markdown li::marker {
-    color: hsl(142 72% 50%);
+  .tpl-markdown li::marker {
+    color: hsl(var(--tpl-accent));
   }
 }
 
