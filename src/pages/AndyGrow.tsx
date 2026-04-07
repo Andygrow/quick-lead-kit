@@ -667,6 +667,229 @@ const LeadMagnetSection = () => {
   );
 };
 
+/* ══════════════════ QUIZ LEAD MAGNET ══════════════════ */
+/*
+  📌 PERSONALIZAR: Lead magnet tipo Quiz / Autodiagnóstico.
+  Flujo: Usuario responde 5 preguntas → ve resultado con nivel → deja datos → se registra como lead.
+*/
+
+const QUIZ_QUESTIONS = [
+  {
+    question: "[Pregunta 1: ¿Cómo describes tu situación actual en X?]",
+    options: [
+      { label: "No tengo nada implementado", score: 1 },
+      { label: "Tengo algo básico pero sin estrategia", score: 2 },
+      { label: "Tengo un sistema pero no da resultados", score: 3 },
+      { label: "Funciona bien pero quiero optimizar", score: 4 },
+    ],
+  },
+  {
+    question: "[Pregunta 2: ¿Cuánto tiempo dedicas a X por semana?]",
+    options: [
+      { label: "Nada, no es prioridad", score: 1 },
+      { label: "Menos de 2 horas", score: 2 },
+      { label: "Entre 2 y 5 horas", score: 3 },
+      { label: "Más de 5 horas con proceso", score: 4 },
+    ],
+  },
+  {
+    question: "[Pregunta 3: ¿Cuál es tu principal desafío con X?]",
+    options: [
+      { label: "No sé por dónde empezar", score: 1 },
+      { label: "No tengo las herramientas", score: 2 },
+      { label: "Tengo herramientas pero no estrategia", score: 3 },
+      { label: "Necesito escalar lo que ya tengo", score: 4 },
+    ],
+  },
+  {
+    question: "[Pregunta 4: ¿Qué resultado buscas en los próximos 90 días?]",
+    options: [
+      { label: "Entender qué debo hacer", score: 1 },
+      { label: "Implementar un sistema básico", score: 2 },
+      { label: "Mejorar resultados actuales", score: 3 },
+      { label: "Duplicar o triplicar resultados", score: 4 },
+    ],
+  },
+  {
+    question: "[Pregunta 5: ¿Tienes equipo dedicado a X?]",
+    options: [
+      { label: "No, lo hago solo/a", score: 1 },
+      { label: "Tengo 1 persona parcial", score: 2 },
+      { label: "Tengo un equipo pequeño", score: 3 },
+      { label: "Equipo dedicado con procesos", score: 4 },
+    ],
+  },
+];
+
+const QUIZ_LEVELS = [
+  { min: 5, max: 8, level: "Principiante", color: "hsl(0,70%,55%)", emoji: "🔴", desc: "Estás empezando — necesitas una base sólida." },
+  { min: 9, max: 13, level: "En desarrollo", color: "hsl(45,90%,55%)", emoji: "🟡", desc: "Tienes los fundamentos pero falta estrategia." },
+  { min: 14, max: 17, level: "Avanzado", color: "hsl(var(--tpl-accent))", emoji: "🟢", desc: "Vas por buen camino. Necesitas optimización." },
+  { min: 18, max: 20, level: "Experto", color: "hsl(var(--tpl-accent))", emoji: "🚀", desc: "¡Excelente! Podemos ayudarte a escalar." },
+];
+
+const QuizLeadMagnet = () => {
+  const [currentQ, setCurrentQ] = useState(0);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [showResult, setShowResult] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const totalScore = answers.reduce((a, b) => a + b, 0);
+  const quizLevel = QUIZ_LEVELS.find((l) => totalScore >= l.min && totalScore <= l.max) || QUIZ_LEVELS[0];
+  const progress = ((currentQ) / QUIZ_QUESTIONS.length) * 100;
+
+  const selectAnswer = (score: number) => {
+    const newAnswers = [...answers, score];
+    setAnswers(newAnswers);
+    if (currentQ + 1 < QUIZ_QUESTIONS.length) {
+      setCurrentQ(currentQ + 1);
+    } else {
+      setShowResult(true);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !email) return;
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.from("leads").insert({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        company: "Quiz Lead Magnet",
+        role: `Quiz: ${quizLevel.level}`,
+        lead_quality: totalScore >= 14 ? "high" : totalScore >= 9 ? "medium" : "low",
+        is_corporate_email: !email.includes("gmail") && !email.includes("hotmail") && !email.includes("yahoo"),
+        quiz_score: totalScore,
+        quiz_level: quizLevel.level,
+        utm_source: new URLSearchParams(window.location.search).get("utm_source") || null,
+        utm_medium: new URLSearchParams(window.location.search).get("utm_medium") || null,
+        utm_campaign: new URLSearchParams(window.location.search).get("utm_campaign") || null,
+      });
+      if (error) throw error;
+      setSubmitted(true);
+      toast.success("¡Resultados enviados a tu email!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al guardar. Intenta de nuevo.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const resetQuiz = () => {
+    setCurrentQ(0); setAnswers([]); setShowResult(false); setShowForm(false);
+    setSubmitted(false); setName(""); setEmail("");
+  };
+
+  return (
+    <Section id="quiz" className="bg-[hsl(220,15%,4%)]">
+      <SectionHeader badge="Autodiagnóstico" title={<>¿En qué nivel estás en <span className="tpl-gradient-text">[Tu Tema]</span>?</>}
+        subtitle="Responde 5 preguntas rápidas y descubre tu nivel actual." />
+      <div ref={ref} className="max-w-2xl mx-auto">
+        <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}
+          className="rounded-2xl border border-primary/20 bg-card overflow-hidden shadow-[0_0_60px_-15px_hsl(var(--tpl-accent)/0.15)]">
+          <div className="h-1.5 bg-muted">
+            <div className="h-full bg-primary transition-all duration-500 ease-out" style={{ width: `${showResult ? 100 : progress}%` }} />
+          </div>
+          <div className="px-6 sm:px-8 py-6">
+            <AnimatePresence mode="wait">
+              {!showResult && !showForm && !submitted && (
+                <motion.div key={`q-${currentQ}`} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.3 }}>
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-xs font-semibold text-primary uppercase tracking-wider">Pregunta {currentQ + 1} de {QUIZ_QUESTIONS.length}</span>
+                    <span className="text-xs text-muted-foreground">{Math.round(progress)}%</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-6">{QUIZ_QUESTIONS[currentQ].question}</h3>
+                  <div className="space-y-3">
+                    {QUIZ_QUESTIONS[currentQ].options.map((opt, i) => (
+                      <button key={i} onClick={() => selectAnswer(opt.score)}
+                        className="w-full text-left p-4 rounded-xl border border-border bg-muted hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg border border-border bg-background flex items-center justify-center text-xs font-bold text-muted-foreground group-hover:border-primary/50 group-hover:text-primary transition-colors">
+                            {String.fromCharCode(65 + i)}
+                          </div>
+                          <span className="text-sm text-muted-foreground group-hover:text-white transition-colors font-medium">{opt.label}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+              {showResult && !showForm && !submitted && (
+                <motion.div key="result" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+                  <div className="text-center py-4">
+                    <span className="text-5xl mb-4 block">{quizLevel.emoji}</span>
+                    <h3 className="text-2xl font-black text-white mb-1">Tu nivel: <span style={{ color: quizLevel.color }}>{quizLevel.level}</span></h3>
+                    <p className="text-sm text-muted-foreground mb-2">Puntuación: {totalScore} / {QUIZ_QUESTIONS.length * 4}</p>
+                    <div className="w-full h-3 bg-muted rounded-full overflow-hidden my-4 max-w-xs mx-auto">
+                      <motion.div initial={{ width: 0 }} animate={{ width: `${(totalScore / (QUIZ_QUESTIONS.length * 4)) * 100}%` }}
+                        transition={{ duration: 1, ease: "easeOut" }} className="h-full rounded-full" style={{ backgroundColor: quizLevel.color }} />
+                    </div>
+                    <p className="text-muted-foreground text-sm mb-6">{quizLevel.desc}</p>
+                    <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 mb-4">
+                      <p className="text-xs text-primary font-semibold">📊 ¿Quieres el reporte completo con recomendaciones?</p>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button onClick={() => setShowForm(true)} className="flex-1 h-12 font-bold bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl tpl-glow">
+                        <Mail className="w-4 h-4 mr-2" /> Recibir Reporte Gratis
+                      </Button>
+                      <Button onClick={resetQuiz} variant="outline" className="h-12 border-border text-muted-foreground hover:text-white rounded-xl">
+                        <RefreshCw className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+              {showForm && !submitted && (
+                <motion.form key="form" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} onSubmit={handleSubmit} className="space-y-4 py-2">
+                  <div className="text-center mb-4">
+                    <span className="text-3xl">{quizLevel.emoji}</span>
+                    <p className="text-sm font-bold text-white mt-2">Nivel: <span style={{ color: quizLevel.color }}>{quizLevel.level}</span></p>
+                  </div>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input placeholder="Tu nombre" value={name} onChange={(e) => setName(e.target.value)} required
+                      className="pl-10 h-12 bg-muted border-border text-white placeholder:text-muted-foreground focus:border-primary/50 rounded-xl" />
+                  </div>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input type="email" placeholder="tu@empresa.com" value={email} onChange={(e) => setEmail(e.target.value)} required
+                      className="pl-10 h-12 bg-muted border-border text-white placeholder:text-muted-foreground focus:border-primary/50 rounded-xl" />
+                  </div>
+                  <Button type="submit" disabled={submitting}
+                    className="w-full h-13 font-bold bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl tpl-glow">
+                    {submitting ? <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Enviando...</> : <><Download className="w-4 h-4 mr-2" /> Enviar Reporte</>}
+                  </Button>
+                  <button type="button" onClick={() => setShowForm(false)} className="w-full text-xs text-muted-foreground hover:text-white py-1">← Volver</button>
+                </motion.form>
+              )}
+              {submitted && (
+                <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8">
+                  <div className="w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">¡Reporte enviado! 🎉</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Revisa tu email con recomendaciones para nivel <span style={{ color: quizLevel.color }} className="font-bold">{quizLevel.level}</span>.</p>
+                  <Button onClick={resetQuiz} variant="outline" className="border-primary/30 text-primary hover:bg-primary/10 rounded-lg">
+                    <RefreshCw className="w-4 h-4 mr-2" /> Repetir quiz
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
+    </Section>
+  );
+};
+
 /* ══════════════════ ECOSISTEMA ══════════════════ */
 // 📌 PERSONALIZAR: Productos o alianzas
 const ECOSYSTEM = [
@@ -921,6 +1144,7 @@ const AndyGrow = () => (
     <ProcessSection />
     <ResultsSection />
     <LeadMagnetSection />
+    <QuizLeadMagnet />
     <EcosystemSection />
     <AIDiagnosisSection />
     <FinalCTA />
