@@ -151,23 +151,23 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="order-2 lg:order-1">
-            <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}>
               {/* 📌 PERSONALIZAR: Badge del hero */}
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/8 text-primary text-xs font-semibold tracking-wide uppercase mb-6">
                 <Bot className="w-3.5 h-3.5" /> [Tu Categoría]
               </span>
             </motion.div>
             {/* 📌 PERSONALIZAR: Titular principal */}
-            <motion.h1 variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={1}
+            <motion.h1 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}
               className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-6">
               [Tu propuesta de{" "}<span className="tpl-gradient-text">valor principal</span>{" "}aquí]
             </motion.h1>
             {/* 📌 PERSONALIZAR: Subtítulo */}
-            <motion.p variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={2}
+            <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2}
               className="text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
               Describe en 1-2 líneas qué haces, para quién lo haces y el resultado que entregas. Sé específico y orientado al beneficio del cliente.
             </motion.p>
-            <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={3}>
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={3}>
               <Button onClick={() => document.getElementById("lead-magnet")?.scrollIntoView({ behavior: "smooth" })}
                 className="h-14 px-8 text-base font-bold bg-primary hover:bg-primary/90 text-primary-foreground rounded-full tpl-glow tpl-glow-hover transition-all duration-300 group">
                 {/* 📌 PERSONALIZAR: Texto del CTA */}
@@ -175,13 +175,13 @@ const HeroSection = () => {
               </Button>
             </motion.div>
             {/* 📌 PERSONALIZAR: Mini estadísticas */}
-            <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={4} className="flex flex-wrap gap-6 mt-10">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={4} className="flex flex-wrap gap-6 mt-10">
               <MiniStat icon={Zap} value="[Stat 1]" label="[Descripción]" />
               <MiniStat icon={BarChart3} value="[Stat 2]" label="[Descripción]" />
               <MiniStat icon={Clock} value="[Stat 3]" label="[Descripción]" />
             </motion.div>
           </div>
-          <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={2} className="order-1 lg:order-2 flex justify-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} className="order-1 lg:order-2 flex justify-center">
             <div className="relative">
               <div className="absolute -inset-4 rounded-full border border-primary/15" />
               <div className="absolute -inset-8 rounded-full border border-primary/8" />
@@ -228,11 +228,11 @@ const SocialProofSection = () => {
     <section className="py-14 bg-card/50 border-y border-border relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
       <div className="container mx-auto px-4 relative">
-        <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5 }} className="text-center space-y-8">
+        <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="text-center space-y-8">
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto">
             {SOCIAL_STATS.map((stat, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.1, duration: 0.4 }} className="text-center">
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.4 }} className="text-center">
                 <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary">{stat.value}</p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">{stat.label}</p>
               </motion.div>
@@ -250,7 +250,7 @@ const SocialProofSection = () => {
           {/* Client logos as text badges */}
           <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
             {SOCIAL_LOGOS.map((logo, i) => (
-              <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.2 + i * 0.05, duration: 0.3 }}
+              <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.05, duration: 0.3 }}
                 className="px-5 py-2.5 rounded-xl border border-border bg-background/50 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300">
                 <span className="text-sm font-semibold text-muted-foreground">{logo}</span>
               </motion.div>
@@ -283,7 +283,7 @@ const ServicesSection = () => {
   return (
     <Section id="servicios">
       <SectionHeader badge="Servicios" title={<>Lo que <span className="tpl-gradient-text">ofrecemos</span></>} subtitle="Soluciones diseñadas para transformar tu negocio." />
-      <motion.div ref={ref} variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
+      <motion.div ref={ref} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
         className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {SERVICES.map((s) => (
           <motion.div key={s.title} variants={fadeUp} custom={0}
@@ -320,7 +320,7 @@ const IndustrySection = () => {
     <Section id="industrias" className="bg-[hsl(220,15%,4%)]">
       <SectionHeader badge="Soluciones" title={<>Soluciones para <span className="tpl-gradient-text">tu industria</span></>} subtitle="Selecciona tu sector y descubre cómo podemos ayudarte." />
       <div ref={ref} className="max-w-5xl mx-auto">
-        <motion.div variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
+        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-10">
           {INDUSTRIES.map((ind) => (
             <motion.button key={ind.id} variants={fadeUp} custom={0} onClick={() => setActive(ind.id)}
@@ -363,7 +363,7 @@ const ProcessSection = () => {
   return (
     <Section id="proceso">
       <SectionHeader badge="Proceso" title={<>Cómo <span className="tpl-gradient-text">funciona</span></>} subtitle="Un proceso probado para generar resultados reales." />
-      <motion.div ref={ref} variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
+      <motion.div ref={ref} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
         className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
         {STEPS.map((s, i) => (
           <motion.div key={s.num} variants={fadeUp} custom={i}
@@ -487,7 +487,7 @@ const LeadMagnetSection = () => {
       <div ref={ref} className="max-w-5xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left — Value proposition */}
-          <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/8 text-primary text-xs font-semibold tracking-wide uppercase mb-4">
               <Download className="w-3.5 h-3.5" /> Recurso Gratuito
             </span>
@@ -531,7 +531,7 @@ const LeadMagnetSection = () => {
           </motion.div>
 
           {/* Right — Form / Funnel */}
-          <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={1}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}>
             <div className="rounded-2xl border border-primary/20 bg-card overflow-hidden shadow-[0_0_60px_-15px_hsl(var(--tpl-accent)/0.15)]">
               {/* Progress bar */}
               <div className="h-1 bg-muted">
@@ -789,7 +789,7 @@ const QuizLeadMagnet = () => {
       <SectionHeader badge="Autodiagnóstico" title={<>¿En qué nivel estás en <span className="tpl-gradient-text">[Tu Tema]</span>?</>}
         subtitle="Responde 5 preguntas rápidas y descubre tu nivel actual." />
       <div ref={ref} className="max-w-2xl mx-auto">
-        <motion.div variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}
+        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
           className="rounded-2xl border border-primary/20 bg-card overflow-hidden shadow-[0_0_60px_-15px_hsl(var(--tpl-accent)/0.15)]">
           <div className="h-1.5 bg-muted">
             <div className="h-full bg-primary transition-all duration-500 ease-out" style={{ width: `${showResult ? 100 : progress}%` }} />
@@ -899,7 +899,7 @@ const EcosystemSection = () => {
   return (
     <Section id="ecosistema">
       <SectionHeader badge="Ecosistema" title={<>Productos del <span className="tpl-gradient-text">ecosistema</span></>} subtitle="Herramientas que complementan nuestra oferta." />
-      <motion.div ref={ref} variants={stagger} initial="hidden" animate={inView ? "visible" : "hidden"}
+      <motion.div ref={ref} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
         className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
         {ECOSYSTEM.map((e) => (
           <motion.a key={e.name} variants={fadeUp} custom={0} href={e.url} target="_blank" rel="noopener noreferrer"
@@ -1015,7 +1015,7 @@ const AIDiagnosisSection = () => {
       <div ref={ref} className="max-w-3xl mx-auto">
         {!result ? (
           <motion.form
-            variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}
+            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
             onSubmit={handleSubmit}
             className="p-8 rounded-2xl border border-border bg-card space-y-6"
           >
@@ -1100,7 +1100,7 @@ const FinalCTA = () => {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
     <Section>
-      <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={inView ? "visible" : "hidden"} custom={0}
+      <motion.div ref={ref} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
         className="text-center max-w-2xl mx-auto">
         {/* 📌 PERSONALIZAR: CTA final */}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
