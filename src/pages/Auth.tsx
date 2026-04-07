@@ -70,6 +70,8 @@ const Auth = () => {
         message = "Credenciales incorrectas. Verifica tu email y contraseña.";
       } else if (error.message.includes('already registered')) {
         message = "Este email ya está registrado. Intenta iniciar sesión.";
+      } else if (error.message.includes('weak') || error.message.includes('easy to guess')) {
+        message = "La contraseña es muy débil o ha sido filtrada en brechas de seguridad. Usa una contraseña más segura y única.";
       }
       
       toast({
